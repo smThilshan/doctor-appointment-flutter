@@ -1,9 +1,9 @@
-import 'package:doctot_appointment/screens/auth_page.dart';
-import 'package:doctot_appointment/screens/booking_page.dart';
-import 'package:doctot_appointment/screens/doctor_details.dart';
-import 'package:doctot_appointment/screens/success_screen.dart';
-import 'package:doctot_appointment/utils/config.dart';
-import 'package:doctot_appointment/utils/main_layout.dart';
+import 'package:doctor_appointment/screens/auth_page.dart';
+import 'package:doctor_appointment/screens/booking_page.dart';
+import 'package:doctor_appointment/screens/doctor_details.dart';
+import 'package:doctor_appointment/screens/success_screen.dart';
+import 'package:doctor_appointment/utils/config.dart';
+import 'package:doctor_appointment/utils/main_layout.dart';
 import 'package:flutter/material.dart';
 
 void main() {

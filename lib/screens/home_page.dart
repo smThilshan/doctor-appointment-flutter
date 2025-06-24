@@ -1,5 +1,5 @@
-import 'package:doctot_appointment/components/appointment_card.dart';
-import 'package:doctot_appointment/components/doctor_card.dart';
+import 'package:doctor_appointment/components/appointment_card.dart';
+import 'package:doctor_appointment/components/doctor_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

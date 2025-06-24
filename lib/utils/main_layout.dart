@@ -1,5 +1,5 @@
-import 'package:doctot_appointment/screens/appointment_page.dart';
-import 'package:doctot_appointment/screens/home_page.dart';
+import 'package:doctor_appointment/screens/appointment_page.dart';
+import 'package:doctor_appointment/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 class MainLayout extends StatefulWidget {

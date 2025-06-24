@@ -1,6 +1,6 @@
-import 'package:doctot_appointment/components/login_form.dart';
-import 'package:doctot_appointment/utils/config.dart';
-import 'package:doctot_appointment/utils/text.dart';
+import 'package:doctor_appointment/components/login_form.dart';
+import 'package:doctor_appointment/utils/config.dart';
+import 'package:doctor_appointment/utils/text.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {

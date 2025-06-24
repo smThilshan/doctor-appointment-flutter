@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:doctot_appointment/components/custom_btn.dart';
-import 'package:doctot_appointment/utils/text.dart';
+import 'package:doctor_appointment/components/custom_btn.dart';
+import 'package:doctor_appointment/utils/text.dart';
 import 'package:flutter/material.dart';
-import 'package:doctot_appointment/providers/dio_provider.dart';
+import 'package:doctor_appointment/providers/dio_provider.dart';
 
-// import 'package:doctot_appointment/providers/';
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
 
