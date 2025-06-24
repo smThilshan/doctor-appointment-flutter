@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:doctot_appointment/components/custom_btn.dart';
 import 'package:doctot_appointment/utils/text.dart';
 import 'package:flutter/material.dart';
+import 'package:doctot_appointment/providers/dio_provider.dart';
 
+// import 'package:doctot_appointment/providers/';
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
 
@@ -78,9 +81,16 @@ class _LoginFormState extends State<LoginForm> {
               title: AppText.enText['login_text'] ?? 'Login',
               width: double.infinity,
               // onPressed: _submit,
-              onPressed: () {
-                Navigator.of(context).pushNamed('booking');
+              onPressed: () async {
+                final dioProvider = DioProvider();
+                final token = await dioProvider.getToken(
+                  _emailController.text.trim(),
+                  _passwordController.text.trim(),
+                );
+                print(token);
+                // Navigator.of(context).pushNamed('booking');
               },
+              isDisabled: false,
             ),
           ],
         ),
