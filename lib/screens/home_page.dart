@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:doctor_appointment/components/appointment_card.dart';
 import 'package:doctor_appointment/components/doctor_card.dart';
+import 'package:doctor_appointment/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Map<String, dynamic> user = {};
+
   List<Map<String, dynamic>> categories = [
     {'name': 'Cardiology', 'icon': FontAwesomeIcons.heartbeat},
     {'name': 'Dermatology', 'icon': FontAwesomeIcons.syringe},
@@ -18,6 +24,29 @@ class _HomePageState extends State<HomePage> {
     {'name': 'Pediatrics', 'icon': FontAwesomeIcons.baby},
     {'name': 'Psychiatry', 'icon': FontAwesomeIcons.headSideVirus},
   ];
+
+  Future<void> getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? '';
+
+    if (token.isNotEmpty && token != 'null') {
+      final response = await DioProvider().getUserDetails(token);
+      if (response != null) {
+        setState(() {
+          user = jsonDecode(response);
+          print(user);
+        });
+      }
+    } else {
+      debugPrint("No token found");
+    }
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Amanda",

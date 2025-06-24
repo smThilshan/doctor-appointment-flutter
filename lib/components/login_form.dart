@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:doctor_appointment/components/custom_btn.dart';
+import 'package:doctor_appointment/main.dart';
+import 'package:doctor_appointment/models/auth_model.dart';
 import 'package:doctor_appointment/utils/text.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_appointment/providers/dio_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -76,20 +79,30 @@ class _LoginFormState extends State<LoginForm> {
             //   onPressed: _submit,
             //   child: const Text("Login"),
             // ),
-            CustomButton(
-              title: AppText.enText['login_text'] ?? 'Login',
-              width: double.infinity,
-              // onPressed: _submit,
-              onPressed: () async {
-                final dioProvider = DioProvider();
-                final token = await dioProvider.getToken(
-                  _emailController.text.trim(),
-                  _passwordController.text.trim(),
+            Consumer<AuthModel>(
+              builder: (context, auth, child) {
+                return CustomButton(
+                  title: AppText.enText['login_text'] ?? 'Login',
+                  width: double.infinity,
+                  // onPressed: _submit,
+                  onPressed: () async {
+                    final dioProvider = DioProvider();
+                    final token = await dioProvider.getToken(
+                      _emailController.text.trim(),
+                      _passwordController.text.trim(),
+                    );
+
+                    if (token) {
+                      auth.loginsuccess();
+                      MyApp.navigatorKey.currentState?.pushNamed('main');
+                      // Navigator.of(
+                      //   context,
+                      // ).pushNamed('main');
+                    }
+                  },
+                  isDisabled: false,
                 );
-                print(token);
-                // Navigator.of(context).pushNamed('booking');
               },
-              isDisabled: false,
             ),
           ],
         ),

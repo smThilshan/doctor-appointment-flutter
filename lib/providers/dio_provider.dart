@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioProvider {
   // get token
@@ -15,7 +16,12 @@ class DioProvider {
       );
 
       if (response.statusCode == 200 && response.data != '') {
-        return response.data;
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', response.data);
+        // return response.data;
+        return true; // Indicating successful login
+      } else {
+        return false; // Indicating failed login
       }
     } catch (e) {
       // Handle any errors that occur during the request
