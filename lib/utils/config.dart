@@ -54,4 +54,7 @@ class Config {
   );
 
   static const primaryColor = Color(0xFF4CAF50);
+
+  static const String baseUrl =
+      "http://127.0.0.1:8000"; // Change this when deploying
 }
