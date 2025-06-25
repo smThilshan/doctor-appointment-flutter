@@ -45,4 +45,33 @@ class DioProvider {
       return null;
     }
   }
+
+  Future<dynamic> registerUser(
+      String username, String email, String password) async {
+    try {
+      var user = await Dio().post(
+        'http://127.0.0.1:8000/api/register',
+        data: {
+          'name': username,
+          'email': email,
+          'password': password,
+        },
+      );
+
+      print(user.data);
+      // Print the status code
+      print('Status Code: ${user.statusCode}');
+
+      if ((user.statusCode == 200 || user.statusCode == 201) &&
+          user.data != '') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // Handle any errors that occur during the request
+      print("Error fetching user details: $e");
+      return false;
+    }
+  }
 }

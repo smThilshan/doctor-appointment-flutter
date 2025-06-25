@@ -57,10 +57,10 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Amanda",
+                  Text(user['name'],
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   CircleAvatar(

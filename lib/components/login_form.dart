@@ -94,10 +94,10 @@ class _LoginFormState extends State<LoginForm> {
 
                     if (token) {
                       auth.loginsuccess();
-                      MyApp.navigatorKey.currentState?.pushNamed('main');
-                      // Navigator.of(
-                      //   context,
-                      // ).pushNamed('main');
+                      // MyApp.navigatorKey.currentState?.pushNamed('main');
+                      Navigator.of(
+                        context,
+                      ).pushNamed('main');
                     }
                   },
                   isDisabled: false,
