@@ -1,4 +1,8 @@
+import 'package:doctor_appointment/main.dart';
+import 'package:doctor_appointment/models/booking_datetime_converted.dart';
+import 'package:doctor_appointment/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookingPage extends StatefulWidget {
@@ -11,6 +15,18 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage> {
   DateTime _selectedDate = DateTime.now();
   String? _selectedTimeSlot;
+  String? token;
+
+  Future<void> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? '';
+  }
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
 
   final List<String> _timeSlots = [
     '09:00 AM',
@@ -33,17 +49,9 @@ class _BookingPageState extends State<BookingPage> {
     });
   }
 
-  void _onBookAppointment() {
-    if (_selectedTimeSlot != null) {
-      // Here you can implement your booking logic
-      debugPrint("Appointment booked for $_selectedDate at $_selectedTimeSlot");
-    } else {
-      debugPrint("Please select a time slot.");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(title: const Text("Book Appointment")),
       body: Padding(
@@ -73,7 +81,24 @@ class _BookingPageState extends State<BookingPage> {
             ),
             const SizedBox(height: 30),
             ElevatedButton(
-              onPressed: _onBookAppointment,
+              onPressed: () async {
+                final getDate = DateConverted.getDate(_selectedDate);
+                final getDay = DateConverted.getDay(_selectedDate.weekday);
+                final getTime = DateConverted.getTime(
+                    _timeSlots.indexOf(_selectedTimeSlot!));
+                // final getTimeIndex = _timeSlots.indexOf(_selectedTimeSlot!);
+
+                final booking = await DioProvider().bookAppointment(
+                    getDate, getDay, getTime, doctor['doctor_id'], token!);
+
+                if (booking == true) {
+                  MyApp.navigatorKey.currentState!.pushNamed('success');
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Failed to book appointment")),
+                  );
+                }
+              },
               child: const Text("Book Appointment"),
             )
           ],

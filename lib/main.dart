@@ -2,6 +2,7 @@ import 'package:doctor_appointment/models/auth_model.dart';
 import 'package:doctor_appointment/screens/auth_page.dart';
 import 'package:doctor_appointment/screens/booking_page.dart';
 import 'package:doctor_appointment/screens/doctor_details.dart';
+import 'package:doctor_appointment/screens/doctor_details_page.dart';
 import 'package:doctor_appointment/screens/success_screen.dart';
 import 'package:doctor_appointment/utils/config.dart';
 import 'package:doctor_appointment/utils/main_layout.dart';
@@ -49,12 +50,20 @@ class MyApp extends StatelessWidget {
                 title: '',
                 message: '',
               ),
-          'doctor_details': (context) => const DoctorDetailPage(
-                doctorImage: '',
-                doctorName: '',
-                specialty: '',
-                description: '',
-              ),
+          // 'doctor_details': (context) => const DoctorDetailPage(),
+          'doctor_details': (context) {
+            final doctor = ModalRoute.of(context)!.settings.arguments
+                    as Map<String, dynamic>? ??
+                {};
+            return DoctorDetailPage(doctor: doctor);
+          },
+
+          // 'doctor_details': (context) => const DoctorDetailsPage(doctor: {
+          //       'name': '',
+          //       'specialty': '',
+          //       'experience': '',
+          //       'imageUrl': 'https://via.placeholder.com/150',
+          //     }),
         },
       ),
     );

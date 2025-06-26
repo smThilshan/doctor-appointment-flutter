@@ -157,6 +157,7 @@
 //   }
 // }
 
+import 'package:doctor_appointment/screens/doctor_details.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_appointment/utils/config.dart';
 
@@ -188,48 +189,63 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = getDoctorImageUrl(doctor['doctor_profile']);
-    debugPrint("Image URL: $imageUrl"); // ✅ Check in debug
+    debugPrint("Image URL: $imageUrl");
 
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 100,
-              height: 100,
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.fill,
-                errorBuilder: (context, error, stackTrace) {
-                  // ✅ Fallback in case the image fails
-                  return Image.network(
-                    'https://ui-avatars.com/api/?name=${doctor['doctor_name'] ?? 'unknown'}',
-                    fit: BoxFit.fill,
-                  );
-                },
-              ),
+    return InkWell(
+      onTap: () {
+        // ✅ Navigate to the DoctorDetailScreen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DoctorDetailPage(
+              // doctorImage: imageUrl,
+              // doctorName: doctor['doctor_name'] ?? 'N/A',
+              // specialty: doctor['category'] ?? 'No Category',
+              // description: doctor['about'] ?? 'No details available',
+              doctor: doctor,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Dr ${doctor['doctor_name'] ?? 'N/A'}",
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
-                  Text("${doctor['category'] ?? 'No Category'}",
-                      style: const TextStyle(fontSize: 14, color: Colors.grey)),
-                ],
+          ),
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 3,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 100,
+                height: 100,
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.network(
+                      'https://ui-avatars.com/api/?name=${doctor['doctor_name'] ?? 'unknown'}',
+                      fit: BoxFit.fill,
+                    );
+                  },
+                ),
               ),
-            ),
-            // You can add a Button here for navigation if needed
-            // TextButton(onPressed: () { /* Route to doctor details*/ }, child: const Text("View Profile")),
-          ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Dr ${doctor['doctor_name'] ?? 'N/A'}",
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    Text("${doctor['category'] ?? 'No Category'}",
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey)),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

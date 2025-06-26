@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Show loader until user data is available
+    // Show loader until user data is available
     if (user.isEmpty) {
       return const Scaffold(
         body: Center(
@@ -59,89 +59,93 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    // ✅ Main Page
+    // Main Page
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // User Info
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    user['name'],
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage("assets/images/user.jpeg"),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              const Text("Category",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    final category = categories[index];
-                    return Container(
-                      width: 230,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // User Info
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      user['name'],
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage("assets/images/user.jpeg"),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Text("Category",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categories.length,
+                    itemBuilder: (context, index) {
+                      final category = categories[index];
+                      return SizedBox(
+                        width: 230,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 2,
+                          child: ListTile(
+                            title: Text(category['name'],
+                                style: const TextStyle(fontSize: 16)),
+                            leading: Icon(category['icon'],
+                                color: Colors.teal, size: 28),
+                            trailing: const Icon(Icons.arrow_forward_ios,
+                                color: Colors.teal, size: 18),
+                          ),
                         ),
-                        elevation: 2,
-                        child: ListTile(
-                          title: Text(category['name'],
-                              style: const TextStyle(fontSize: 16)),
-                          leading: Icon(category['icon'],
-                              color: Colors.teal, size: 28),
-                          trailing: const Icon(Icons.arrow_forward_ios,
-                              color: Colors.teal, size: 18),
-                        ),
-                      ),
-                    );
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text("Appointment Today",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 12),
+                AppointmentCard(
+                  doctorImage: "assets/images/doctor.png",
+                  doctorName: "Dr. Jane Smith",
+                  specialty: "Cardiology",
+                  dateTime: "July 5, 2023 | 10:30 AM",
+                  onCancel: () {
+                    debugPrint("Cancel pressed");
+                  },
+                  onDownload: () {
+                    debugPrint("Download pressed");
                   },
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text("Appointment Today",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
-              AppointmentCard(
-                doctorImage: "assets/images/doctor.png",
-                doctorName: "Dr. Jane Smith",
-                specialty: "Cardiology",
-                dateTime: "July 5, 2023 | 10:30 AM",
-                onCancel: () {
-                  debugPrint("Cancel pressed");
-                },
-                onDownload: () {
-                  debugPrint("Download pressed");
-                },
-              ),
-              const SizedBox(height: 20),
-              const Text("Top Doctors",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
-              Column(
-                children: List.generate(user['doctors'].length, (index) {
+                const SizedBox(height: 20),
+                const Text("Top Doctors",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 12),
+                // List of doctors
+                ...List.generate(user['doctors'].length, (index) {
                   return DoctorCard(
                     route: 'doc_details',
                     doctor: user['doctors'][index],
                   );
                 }),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
