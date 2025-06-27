@@ -121,4 +121,32 @@ class DioProvider {
       return false;
     }
   }
+
+  // store rating details
+  Future<dynamic> storeReviews(
+      String reviews, double ratings, int id, int doctor, String token) async {
+    try {
+      var response = await Dio().get(
+        'http://127.0.0.1:8000/api/reviews',
+        data: {
+          'ratings': ratings,
+          'reviews': reviews,
+          'appointment_id': id,
+          'doctor_id': doctor
+        },
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data != '') {
+        return jsonEncode(response.data);
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // Handle any errors that occur during the request
+      print("Error booking appointment details: $e");
+      return false;
+    }
+  }
 }

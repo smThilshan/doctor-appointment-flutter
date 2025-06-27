@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:doctor_appointment/components/appointment_card.dart';
 import 'package:doctor_appointment/components/doctor_card.dart';
 import 'package:doctor_appointment/providers/dio_provider.dart';
+import 'package:doctor_appointment/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Map<String, dynamic> user = {};
+  Map<String, dynamic> doctor = {};
 
   List<Map<String, dynamic>> categories = [
     {'name': 'Cardiology', 'icon': FontAwesomeIcons.heartbeat},
@@ -35,6 +37,14 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           user = jsonDecode(response);
           // print(user);
+
+          // for (var doctorData in user['doctor']) {
+          //   if (doctorData['appointments'] != null) {
+          //     doctor = doctorData;
+          //   }
+          // }
+          print("TODAY");
+          print(doctor);
         });
       }
     } else {
@@ -116,22 +126,35 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text("Appointment Today",
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 12),
-                AppointmentCard(
-                  doctorImage: "assets/images/doctor.png",
-                  doctorName: "Dr. Jane Smith",
-                  specialty: "Cardiology",
-                  dateTime: "July 5, 2023 | 10:30 AM",
-                  onCancel: () {
-                    debugPrint("Cancel pressed");
-                  },
-                  onDownload: () {
-                    debugPrint("Download pressed");
-                  },
-                ),
+                if (doctor.isNotEmpty) ...[
+                  const Text("Appointment Today",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  AppointmentCard(
+                    doctor: doctor,
+                    color: Config.primaryColor,
+                  ),
+                ],
+
+                // const Text("Appointment Today",
+                //     style:
+                //         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                // const SizedBox(height: 12),
+                // AppointmentCard(
+                //   // doctorImage: "assets/images/doctor.png",
+                //   // doctorName: "Dr. Jane Smith",
+                //   // specialty: "Cardiology",
+                //   // dateTime: "July 5, 2023 | 10:30 AM",
+                //   // onCancel: () {
+                //   //   debugPrint("Cancel pressed");
+                //   // },
+                //   // onDownload: () {
+                //   //   debugPrint("Download pressed");
+                //   // },
+                //   doctor: doctor,
+                //   color: Config.primaryColor,
+                // ),
                 const SizedBox(height: 20),
                 const Text("Top Doctors",
                     style:

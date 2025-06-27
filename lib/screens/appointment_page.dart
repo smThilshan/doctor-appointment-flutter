@@ -122,6 +122,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
     final specialization = appointment['specialization'] ?? 'Specialist';
     final date = appointment['date'] ?? 'Date not set';
     final time = appointment['time'] ?? 'Time not set';
+    final imageUrl = appointment['doctor_profile'];
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -131,9 +132,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
         padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 30,
-              backgroundImage: AssetImage("assets/images/doctor.png"),
+              backgroundImage: NetworkImage(imageUrl),
             ),
             const SizedBox(width: 16),
             Expanded(
