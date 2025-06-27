@@ -58,9 +58,9 @@ class DioProvider {
         },
       );
 
-      print(user.data);
+      // print(user.data);
       // Print the status code
-      print('Status Code: ${user.statusCode}');
+      // print('Status Code: ${user.statusCode}');
 
       if ((user.statusCode == 200 || user.statusCode == 201) &&
           user.data != '') {
@@ -92,6 +92,26 @@ class DioProvider {
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           response.data != '') {
         return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // Handle any errors that occur during the request
+      print("Error booking appointment details: $e");
+      return false;
+    }
+  }
+
+  Future<dynamic> getAppointment(String token) async {
+    try {
+      var response = await Dio().get(
+        'http://127.0.0.1:8000/api/appointments',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data != '') {
+        return jsonEncode(response.data);
       } else {
         return false;
       }

@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       if (response != null) {
         setState(() {
           user = jsonDecode(response);
-          print(user);
+          // print(user);
         });
       }
     } else {

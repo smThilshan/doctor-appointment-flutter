@@ -189,7 +189,7 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = getDoctorImageUrl(doctor['doctor_profile']);
-    debugPrint("Image URL: $imageUrl");
+    // debugPrint("Image URL: $imageUrl");
 
     return InkWell(
       onTap: () {

@@ -24,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
-      debugPrint("Email: $email, Password: $password");
+      // debugPrint("Email: $email, Password: $password");
       // Perform login action here
     }
   }
